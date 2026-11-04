@@ -1,0 +1,24 @@
+[package]
+name = "emu198x-apple-disk-ii"
+version = "0.1.0"
+edition = "2024"
+license = "GPL-2.0-or-later"
+description = "Crystal-driven Apple Disk II card, PROM sequencer and bitstream drives"
+repository = "https://github.com/emu198x/apple-disk-ii"
+readme = "README.md"
+
+[lints.rust]
+unsafe_code = "forbid"
+unused_must_use = "deny"
+[lints.clippy]
+unwrap_used = "deny"
+todo = "deny"
+dbg_macro = "deny"
+
+[profile.dev]
+debug = "line-tables-only"
+split-debuginfo = "unpacked"
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
