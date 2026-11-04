@@ -156,8 +156,7 @@ impl DiskII {
                 }
             }
             12 | 13 => self.q6 = offset & 1 != 0,
-            14 | 15 => self.q7 = offset & 1 != 0,
-            _ => unreachable!(),
+            _ => self.q7 = offset & 1 != 0, // Masked offset is 14 or 15.
         }
     }
     /// Data is driven only for even device-select addresses. Odd addresses

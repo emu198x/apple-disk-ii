@@ -30,12 +30,11 @@ impl Sequencer {
             | ((opcode & 0x10) << 1);
         self.data = match opcode & 15 {
             0..=7 => 0,
-            8 | 12 => self.data,
             9 => self.data << 1,
             10 | 14 => (self.data >> 1) | (u8::from(protected) << 7),
             11 | 15 => bus,
             13 => (self.data << 1) | 1,
-            _ => unreachable!(),
+            _ => self.data, // Only masked opcodes 8 and 12 remain.
         };
         self.address = (self.address & !2) | (u8::from(self.data & 128 != 0) << 1);
     }
@@ -52,12 +51,11 @@ mod tests {
             s.tick(true, false, false, true, 0x42);
             let expected = match opcode {
                 0..=7 => 0,
-                8 | 12 => 0x81,
                 9 => 2,
                 10 | 14 => 0xc0,
                 11 | 15 => 0x42,
                 13 => 3,
-                _ => unreachable!(),
+                _ => 0x81,
             };
             assert_eq!(s.data, expected);
             assert_eq!(s.address & 2, u8::from(expected & 128 != 0) * 2);

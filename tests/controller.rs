@@ -167,6 +167,7 @@ fn write_gate_changes_work_media_but_not_protected_source() {
 }
 #[test]
 fn malformed_caller_inputs_fail_before_mounting() {
+    assert_eq!(DiskError::Map.to_string(), "Disk II: Map");
     assert!(matches!(
         DiskII::new([0; 256], [0; 256], 1),
         Err(DiskError::Clock)
